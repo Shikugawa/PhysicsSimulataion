@@ -1,3 +1,11 @@
+var Ball = function(x, y, z){
+  this.x = x;
+  this.y = y;
+  this.z = z;
+
+  /* ルンゲクッタ法による振り子の座標を計算する。 初期条件(最初の座標と時間t)、タイムステップdt */
+};
+
 var main = function () {
   var scene = new THREE.Scene();
 
@@ -22,7 +30,7 @@ var main = function () {
   scene.add(directionalLight);
 
   var ambientlight = new THREE.AmbientLight(0x555555);
-  scene.add(ambientlight)
+  scene.add(ambientlight);
 
   // objexts
   axis = new THREE.AxisHelper(800);
@@ -45,14 +53,16 @@ var main = function () {
   poll.position.set(0, 0, 100);
   scene.add(poll);
 
+  var ball_property = new Ball(0, 60, 100);
   var ball = new THREE.Mesh(
     new THREE.SphereGeometry(5, 5, 5),
     new THREE.MeshLambertMaterial(au)
   );
   ball.castShadow = true;
-  ball.position.set(0, 45, 100);
+  ball.position.set(ball_property.x, ball_property.y, ball_property.z);
   scene.add(ball);
 
+  /*
   var ball2 = new THREE.Mesh(
     new THREE.SphereGeometry(5, 5, 5),
     new THREE.MeshLambertMaterial(au)
@@ -60,16 +70,18 @@ var main = function () {
   ball2.castShadow = true;
   ball2.position.set(0, 90, 100);
   scene.add(ball2);
+  */
 
   var geometry = new THREE.Geometry(); 
   var material = new THREE.LineBasicMaterial({color: 0x000000});
   geometry.vertices.push(
       new THREE.Vector3(0,0,100),
-      new THREE.Vector3(0,45,100),
-      new THREE.Vector3(0,90,100)
+      new THREE.Vector3(ball_property.x,ball_property.y,ball_property.z)
+      /* new THREE.Vector3(0,90,100) */
     );
   var line = new THREE.Line(geometry, material);
   scene.add(line);
+
   /*
   var t = 0;
   (function loop(){ 
