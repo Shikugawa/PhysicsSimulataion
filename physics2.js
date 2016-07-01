@@ -190,18 +190,19 @@ var camera;
 var directionalLight;
 var ambientLight;
 var renderer;
+var floor;
 
 function initCamera(){
   camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
   camera.position.set(300,0,100);
   camera.up.set(0,0,1);
-  camera.lookAt({x:0, y:0, z:100});
+  camera.lookAt({x:0, y:0, z:50});
 }
 
 function initRender(){
   renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(width, height);
-  renderer.setClearColor(0xFFFFFF);
+  renderer.setClearColor(0xf0f8ff);
   document.getElementById('canvas-frame').appendChild(renderer.domElement);
 }
 
@@ -217,6 +218,16 @@ function initLight(){
 function initObjects(){
   var fe = new THREE.Color( 0.560, 0.570, 0.580 );
   var au = new THREE.Color( 1.000, 0.766, 0.336 );
+
+  var axis = new THREE.AxisHelper(400, 400, 400);
+  scene.add(axis);
+
+  floor = new THREE.Mesh(
+      new THREE.PlaneGeometry(400, 400),
+      new THREE.MeshLambertMaterial(fe)
+    );
+  scene.add(floor);
+  floor.position.set(0, 0, -20);
 
   pendulum.poll.object = new THREE.Mesh(
     new THREE.CubeGeometry(5, 5, 5),
@@ -271,5 +282,3 @@ function main(){
   initObjects();
   loop();
 }
-
-main();
