@@ -1,19 +1,34 @@
 <!DOCTYPE html>
 <head>
   <meta charset="utf-8">
-  <title>get started with three.js</title>
+  <title>ふりこ</title>
     <style type="text/css">
       div#canvas-frame{
         border: none;
         cursor: pointer;
-        width: 800px;
-        height: 800px;
+        width: 600px;
+        height: 600px;
         background-color: #EEEEEE;
+      }
+      div#status{
+        float: left;
       }
     </style>
   </head>
 <body>
   <div id="canvas-frame"></div>
+  <div id="status">
+    <table>
+      <tr>
+        <td>球1座標</td>
+        <td>(<input type="text" id="sphere1_x" value="">,<input type="text" id="sphere1_y" value="">)</td>
+      </tr>
+      <tr>
+        <td>球2座標</td>
+        <td>(<input type="text" id="sphere2_x" value="">,<input type="text" id="sphere2_y" value="">)</td>
+      </tr>
+    </table>
+  </div>
   <input type="button" value="start" onClick="main();">
   <script src="three.min.js"></script>
   <script src="physics2.js"></script> 

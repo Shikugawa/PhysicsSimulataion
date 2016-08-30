@@ -2,6 +2,7 @@ var g = 9.8;
 var t = 0;
 var dt = 0.001;
 var skip = 400;
+var test = document.getElementById('sphere1_x').value;
 
 var Ball = function(m, x, y, z, vx, vy, vz){
   this.m = m;
@@ -45,7 +46,7 @@ Pendulum.prototype.cul = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, 
   var cos12 = this.cos12;
   this.lambda1 = -m1 * (L12 * (m1+m2) * ( (Math.pow(vx1,2) + Math.pow(vy1,2) + Math.pow(vz1,2)) - g * (z1 -this.poll.z) ) + m2 * L01 * cos12 * (Math.pow(vx2-vx1,2)+Math.pow(vy2-vy1,2)+Math.pow(vz2-vz1,2)) ) / (Math.pow(L01,2)*L12*(m1+m2*(1.0-Math.pow(cos12,2))));
   this.lambda2 = -m2 * m1 *(L12 * cos12 * ( (Math.pow(vx1,2) + Math.pow(vy1,2) + Math.pow(vz1,2)) - g * (z1 -this.poll.z) ) + L01 * (Math.pow(vx2-vx1,2)+Math.pow(vy2-vy1,2)+Math.pow(vz2-vz1,2)) ) / (L01*Math.pow(L12,2)*(m1+m2*(1.0-Math.pow(cos12,2))));
-} 
+};
 
 Pendulum.prototype.tension = function() {
   this.cul(t, this.ball1.m, this.ball1.x, this.ball1.y, this.ball1.z, this.ball1.vx, this.ball1.vy, this.ball1.vz, this.ball2.m, this.ball2.x, this.ball2.y, this.ball2.z, this.ball2.vx, this.ball2.vy, this.ball2.vz); 
@@ -56,50 +57,61 @@ Pendulum.prototype.tension = function() {
   this.T = this.ball1.m * (Math.pow(this.ball1.vx,2)+Math.pow(this.ball1.vy,2)+Math.pow(this.ball1.vz,2))/2 + this.ball2.m * (Math.pow(this.ball2.vx,2)+Math.pow(this.ball2.vy,2)+Math.pow(this.ball2.vz,2))/2;
   this.V = this.ball1.m * g * this.ball1.z + this.ball2.m * g * this.ball2.z;
   this.E = this.T + this.V;
-} 
+}; 
 
 Pendulum.prototype.fx1 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   return vx1;
-}
+};
+
 Pendulum.prototype.fy1 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   return vy1;
-}
+};
+
 Pendulum.prototype.fz1 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   return vz1;
-}
+};
+
 Pendulum.prototype.fvx1 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   this.cul(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2);
   return this.lambda1*(x1-this.poll.x)/m1 + this.lambda2*(x1-x2)/m1;
-}
+};
+
 Pendulum.prototype.fvy1 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   this.cul(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2);
   return this.lambda1*(y1-this.poll.y)/m1 +this.lambda2*(y1-y2)/m1;
-}
+};
+
 Pendulum.prototype.fvz1 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   this.cul(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2);
   return - g + this.lambda1*(z1-this.poll.z)/m1 + this.lambda2*(z1-z2)/m1;
-}
+};
+
 Pendulum.prototype.fx2 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   return vx2;
-}
+};
+
 Pendulum.prototype.fy2 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   return vy2;
-}
+};
+
 Pendulum.prototype.fz2 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   return vz2;
-}
+};
+
 Pendulum.prototype.fvx2 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   this.cul(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2);
   return this.lambda2*(x2-x1)/m2;
-}
+};
+
 Pendulum.prototype.fvy2 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   this.cul(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2);
   return this.lambda2*(y2-y1)/m2;
-}
+};
+
 Pendulum.prototype.fvz2 = function(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2){
   this.cul(t, m1, x1, y1, z1, vx1, vy1, vz1, m2, x2, y2, z2, vx2, vy2, vz2);
   return -g + this.lambda2*(z2-z1)/m2;
-}
+};
 
 Pendulum.prototype.RungeKutta4 = function(){
   var k1 = new Array(2); 
@@ -179,7 +191,7 @@ Pendulum.prototype.RungeKutta4 = function(){
   this.ball2.vy += (k1[1][3]+2.0*k2[1][3]+2.0*k3[1][3]+k4[1][3])/6.0;
   this.ball2.z  += (k1[1][4]+2.0*k2[1][4]+2.0*k3[1][4]+k4[1][4])/6.0;
   this.ball2.vz += (k1[1][5]+2.0*k2[1][5]+2.0*k3[1][5]+k4[1][5])/6.0;
-}
+};
 
 var pendulum = new Pendulum(0, 0, 100, 1, 0, 60, 100, 0, 0, 0, 1, 0, 120, 100, 0, 0, 0);
 
@@ -276,6 +288,7 @@ function loop() {
 
   
 function main(){
+  console.log(test);
   initRender();
   initCamera();
   initLight();
